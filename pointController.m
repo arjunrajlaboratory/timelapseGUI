@@ -61,12 +61,14 @@ classdef pointController < handle
                 p.currPoints(i) = drawpoint(p.axesHandle,'Position',[Tcurr.xCoord(i) Tcurr.yCoord(i)],...
                     'Color','b','SelectedColor','c');
                 p.currPoints(i).UserData = Tcurr.pointID(i);
+                p.currPoints(i).Label = num2str(Tcurr.pointID(i));
                 addlistener(p.currPoints(i),'ROIMoved',@p.pointMoved);
             end
             for i = 1:height(Tnext)
                 p.nextPoints(i) = drawpoint(p.axesHandle,'Position',[Tnext.xCoord(i) Tnext.yCoord(i)],...
                     'Color','y','SelectedColor','r');
                 p.nextPoints(i).UserData = Tnext.pointID(i);
+                p.nextPoints(i).Label = num2str(Tnext.pointID(i));
                 addlistener(p.nextPoints(i),'ROIMoved',@p.pointMoved);
             end
             
@@ -118,6 +120,7 @@ classdef pointController < handle
             [pointTable, newPoint] = pointTable.addRawPoints(currFrame, [xCoord yCoord]);
             
             p.currPoints(end).UserData = newPoint.pointID;
+            p.currPoints(end).Label = num2str(newPoint.pointID);
             
             addlistener(p.currPoints(end),'ROIMoved',@p.pointMoved);
             % *** ADD LISTENERS FOR MOVED, DELETED
@@ -140,6 +143,7 @@ classdef pointController < handle
             [pointTable, newPoint] = pointTable.addRawPoints(nextFrame, [xCoord yCoord]);
             
             p.nextPoints(end).UserData = newPoint.pointID;
+            p.nextPoints(end).Label = num2str(newPoint.pointID);
             addlistener(p.nextPoints(end),'ROIMoved',@p.pointMoved);
 
             % *** ADD LISTENERS FOR MOVED, DELETED
