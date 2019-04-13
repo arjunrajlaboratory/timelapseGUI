@@ -42,7 +42,7 @@ classdef timeLapseGUI < handle
             p.deleteButtonHandle = uicontrol('Style','pushbutton','String','delete pts','Position',[5,280,80,25]);
             p.deselectAllButtonHandle = uicontrol('Style','pushbutton','String','deselect','Position',[5,310,80,25]);
             p.connectParentButtonHandle = uicontrol('Style','pushbutton','String','connect parent','Position',[5,340,80,25]);
-            p.saveButtonHandle = uicontrol('Style','pushbutton','String','connect parent','Position',[5,370,80,25]);
+            p.saveButtonHandle = uicontrol('Style','pushbutton','String','save','Position',[5,370,80,25]);
 
             
             p.currentFramePopupHandle = uicontrol(p.figHandle,'Style','popupmenu');

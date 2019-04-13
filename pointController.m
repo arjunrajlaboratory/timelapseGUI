@@ -171,10 +171,16 @@ classdef pointController < handle
             currPtSelected = find([p.currPoints(:).Selected]);
             nextPtSelected = find([p.nextPoints(:).Selected]);
             
-            currPtSelected = currPtSelected(1);
-            nextPtSelected = nextPtSelected(1);
-            
-            p.pointTableHandle.assignParent(p.nextPoints(nextPtSelected).UserData, p.currPoints(currPtSelected).UserData)
+            if ~isempty(currPtSelected)
+                currPtSelected = currPtSelected(1);
+                nextPtSelected = nextPtSelected(1);
+                
+                p.pointTableHandle.assignParent(p.nextPoints(nextPtSelected).UserData, p.currPoints(currPtSelected).UserData)
+            else
+                nextPtSelected = nextPtSelected(1);
+                
+                p.pointTableHandle.assignParent(p.nextPoints(nextPtSelected).UserData, nan)
+            end
             
             % Be sure to deselect All.
             p.deselectAllButtonPushed(src,eventdata);
