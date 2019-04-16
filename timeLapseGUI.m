@@ -52,7 +52,7 @@ classdef timeLapseGUI < handle
             % Use following
             %currFrame = str2num(popupHandle.String{popupHandle.Value});
             
-            p.axesHandle = axes('Units','normalized','Position',[0.05 0.05 .8 .8]);
+            p.axesHandle = axes('Units','normalized','Position',[0.05 0.02 .98 .98]);
             
             imshow(rand(100),'Parent',p.axesHandle);
             
