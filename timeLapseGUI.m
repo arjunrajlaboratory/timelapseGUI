@@ -24,7 +24,9 @@ classdef timeLapseGUI < handle
         deselectAllButtonHandle
         connectParentButtonHandle
         saveButtonHandle
+        showPointIDsHandle
         currentFramePopupHandle
+        
         axesHandle
         imageHandle
         linesHandle
@@ -43,7 +45,7 @@ classdef timeLapseGUI < handle
             p.deselectAllButtonHandle = uicontrol('Style','pushbutton','String','deselect','Position',[5,310,80,25]);
             p.connectParentButtonHandle = uicontrol('Style','pushbutton','String','connect parent','Position',[5,340,80,25]);
             p.saveButtonHandle = uicontrol('Style','pushbutton','String','save','Position',[5,370,80,25]);
-
+            p.showPointIDsHandle = uicontrol('Style','checkbox','String','showID','Position',[5,400,80,25]);
             
             p.currentFramePopupHandle = uicontrol(p.figHandle,'Style','popupmenu');
             p.currentFramePopupHandle.Position = [5 5 200 25];
@@ -78,7 +80,10 @@ classdef timeLapseGUI < handle
             p.connectParentButtonHandle.Callback ={@pc.connectParentButtonPushed}; % Needs fixing
             p.currentFramePopupHandle.Callback ={@pc.updateFrame}; % Needs fixing
             p.saveButtonHandle.Callback ={@pc.saveButtonPushed}; % Needs fixing
+            p.showPointIDsHandle.Callback ={@pc.showPointIDsPushed}; % Needs fixing
+            pc.showPointIDsHandle = p.showPointIDsHandle;
             pc.saveFilename = inFilename;
+            
 
             p.loadAllData();
             pc.pointTableHandle = p.pointTableHandle;
@@ -216,6 +221,9 @@ classdef timeLapseGUI < handle
                     p.pointController.updateFrame(src, eventdata);
                 case 'z'
                     p.pointController.zoomMode();
+                case 't'
+                    p.pointController.showPointIDsHandle.Value = ~p.pointController.showPointIDsHandle.Value;
+                    p.pointController.showPointIDsPushed(p.pointController.showPointIDsHandle,eventdata);
             end
             
         end

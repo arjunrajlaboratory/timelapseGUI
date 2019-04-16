@@ -16,6 +16,7 @@ classdef pointController < handle
         deselectAllButtonHandle
         connectParentButtonHandle
         currentFramePopupHandle
+        showPointIDsHandle
         axesHandle
         linesHandle
         imageHandle
@@ -61,14 +62,16 @@ classdef pointController < handle
                 p.currPoints(i) = drawpoint(p.axesHandle,'Position',[Tcurr.xCoord(i) Tcurr.yCoord(i)],...
                     'Color','b','SelectedColor','c');
                 p.currPoints(i).UserData = Tcurr.pointID(i);
-                p.currPoints(i).Label = num2str(Tcurr.pointID(i));
+%                 p.currPoints(i).Label = num2str(Tcurr.pointID(i));
+                p.currPoints(i).Label = getPtLabel(p,Tcurr.pointID(i));
                 addlistener(p.currPoints(i),'ROIMoved',@p.pointMoved);
             end
             for i = 1:height(Tnext)
                 p.nextPoints(i) = drawpoint(p.axesHandle,'Position',[Tnext.xCoord(i) Tnext.yCoord(i)],...
                     'Color','y','SelectedColor','r');
                 p.nextPoints(i).UserData = Tnext.pointID(i);
-                p.nextPoints(i).Label = num2str(Tnext.pointID(i));
+%                 p.nextPoints(i).Label = num2str(Tnext.pointID(i));
+                p.nextPoints(i).Label = getPtLabel(p,Tnext.pointID(i));
                 addlistener(p.nextPoints(i),'ROIMoved',@p.pointMoved);
             end
             
@@ -120,7 +123,8 @@ classdef pointController < handle
             [pointTable, newPoint] = pointTable.addRawPoints(currFrame, [xCoord yCoord]);
             
             p.currPoints(end).UserData = newPoint.pointID;
-            p.currPoints(end).Label = num2str(newPoint.pointID);
+%             p.currPoints(end).Label = num2str(newPoint.pointID);
+            p.currPoints(end).Label = getPtLabel(p,newPoint.pointID);
             
             addlistener(p.currPoints(end),'ROIMoved',@p.pointMoved);
             % *** ADD LISTENERS FOR MOVED, DELETED
@@ -143,7 +147,8 @@ classdef pointController < handle
             [pointTable, newPoint] = pointTable.addRawPoints(nextFrame, [xCoord yCoord]);
             
             p.nextPoints(end).UserData = newPoint.pointID;
-            p.nextPoints(end).Label = num2str(newPoint.pointID);
+%             p.nextPoints(end).Label = num2str(newPoint.pointID);
+            p.nextPoints(end).Label = getPtLabel(p,newPoint.pointID);
             addlistener(p.nextPoints(end),'ROIMoved',@p.pointMoved);
 
             % *** ADD LISTENERS FOR MOVED, DELETED
@@ -155,6 +160,41 @@ classdef pointController < handle
             fprintf('SAVE\n');
             writetable(p.pointTableHandle.allPoints,p.saveFilename);
             % p.pointTableHandle.allPoints.writetable(p.saveFilename);
+        end
+        
+        % Probably could make this abstract or whatever kind of method
+        function label = getPtLabel(p,theID)
+            if p.showPointIDsHandle.Value
+                label = num2str(theID);
+            else
+                label = '';
+            end
+        end
+        
+        function p = showPointIDsPushed(p,src,eventdata)
+            
+            for i = 1:length(p.currPoints)
+                p.currPoints(i).Label = getPtLabel(p,p.currPoints(i).UserData);
+            end
+            for i = 1:length(p.nextPoints)
+                p.nextPoints(i).Label = getPtLabel(p,p.nextPoints(i).UserData);
+            end
+%             if src.Value
+%                 for i = 1:length(p.currPoints)
+%                     p.currPoints(i).Label = num2str(p.currPoints(i).UserData);
+%                 end
+%                 for i = 1:length(p.nextPoints)
+%                     p.nextPoints(i).Label = num2str(p.nextPoints(i).UserData);
+%                 end
+%             else
+%                 for i = 1:length(p.currPoints)
+%                     p.currPoints(i).Label = '';
+%                 end
+%                 for i = 1:length(p.nextPoints)
+%                     p.nextPoints(i).Label = '';
+%                 end
+%                 
+%             end
         end
                 
         
