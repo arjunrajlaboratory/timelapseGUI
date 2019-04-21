@@ -221,6 +221,10 @@ classdef timeLapseGUI < handle
                     p.pointController.updateFrame(src, eventdata);
                 case 'z'
                     p.pointController.zoomMode();
+                case 'q'
+                    p.pointController.zoomReset();                    
+                case 'x'
+                    p.pointController.unZoom();
                 case 't'
                     p.pointController.showPointIDsHandle.Value = ~p.pointController.showPointIDsHandle.Value;
                     p.pointController.showPointIDsPushed(p.pointController.showPointIDsHandle,eventdata);

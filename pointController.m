@@ -6,6 +6,8 @@ classdef pointController < handle
         currPoints % links points in image to pointIDs
         nextPoints % links points in image to pointIDs
         
+        zoomObject % for switching zoom on and off.
+        
         imageToFrameTable % This should link the image filenames to frames
         
         saveFilename
@@ -46,7 +48,34 @@ classdef pointController < handle
         end
         
         function p = zoomMode(p,src,eventdata)
-            zoom;
+            %p.zoomObject = zoom;
+            %p.zoomObject.Enable = 'on';
+            zoom(1.5);
+            
+            
+            % The following enables you to add key functions, but that's
+            % not what we want.
+            %hManager = uigetmodemanager(gcf);
+            %[hManager.WindowListenerHandles.Enabled] = deal(false);
+            
+            %figHandle = gcf;
+            %figHandle.KeyPressFcn = @tempWindowKeyPressFcn;
+            %p.zoomObject.ActionPostCallback = @p.undoZoom;
+        end
+        
+        function p = unZoom(p,src,eventdata)
+            zoom(1/1.5);
+        end
+        
+        function p = zoomReset(p,src,eventdata)
+            zoom out;
+        end        
+        
+        % unused
+        function p = undoZoom(p,src,eventdata)
+            hManager = uigetmodemanager(gcf);
+            [hManager.WindowListenerHandles.Enabled] = deal(false);
+            p.zoomObject.Enable = 'off';
         end
         
         % This makes points and connects them to pointIDs
@@ -55,6 +84,17 @@ classdef pointController < handle
             currFrame = popupHandle.Value; %str2num(popupHandle.String{popupHandle.Value});
             Tcurr = p.pointTableHandle.getAllPointsInFrame(currFrame);
             Tnext = p.pointTableHandle.getAllPointsInFrame(currFrame+1);
+            
+            if ~isempty(p.currPoints)
+                if isvalid(p.currPoints)
+                    delete(p.currPoints);
+                end
+            end
+            if ~isempty(p.nextPoints)
+                if isvalid(p.nextPoints)
+                    delete(p.nextPoints);
+                end
+            end
             
             p.currPoints = images.roi.Point;
             p.nextPoints = images.roi.Point;
@@ -291,7 +331,11 @@ classdef pointController < handle
             image2 = imread(p.currentFramePopupHandle.UserData{currFrame+1});
             
             outRGB = makeColoredImage(scale(im2double(image1)),[0 0.6797 0.9336]) + makeColoredImage(scale(im2double(image2)),[0.9648 0.5781 0.1172]);
-            p.imageHandle = imshow(outRGB,'Parent',p.axesHandle);
+            if ~isempty(p.imageHandle)
+                p.imageHandle.CData = outRGB;
+            else
+                p.imageHandle = imshow(outRGB,'Parent',p.axesHandle);
+            end
             
             p.makePoints();
             %p.drawLines();
