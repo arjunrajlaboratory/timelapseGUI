@@ -202,10 +202,32 @@ classdef pointController < handle
             % p.pointTableHandle.allPoints.writetable(p.saveFilename);
         end
         
+        function p = setAnnotation(p,src,eventdata)
+            currPtSelected = find([p.currPoints(:).Selected]);
+            nextPtSelected = find([p.nextPoints(:).Selected]);
+                
+            pointIDs = [ [p.currPoints(currPtSelected).UserData] [p.nextPoints(nextPtSelected).UserData]];
+            
+            annotation = src.String;
+            
+            p.pointTableHandle.changeAnnotation(pointIDs,annotation);
+            p.showPointIDsPushed(src,eventdata);
+            p.deselectAllButtonPushed(src,eventdata);
+ 
+            
+        end
+        
         % Probably could make this abstract or whatever kind of method
         function label = getPtLabel(p,theID)
+            %%% NEEDS UPDATING TO PULL THE LABEL FROM THE POINTTABLE
             if p.showPointIDsHandle.Value
-                label = num2str(theID);
+                idx = p.pointTableHandle.allPoints.pointID == theID;
+                annotation = p.pointTableHandle.allPoints.annotation(idx);
+                if annotation ~= "none"
+                    label = num2str(theID)+" "+annotation;
+                else
+                    label = num2str(theID);
+                end
             else
                 label = '';
             end

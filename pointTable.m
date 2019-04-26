@@ -11,11 +11,20 @@ classdef pointTable < handle
         function p = pointTable(varargin)
             if nargin == 0
                 fprintf('New Table\n');
-                p.allPoints = cell2table(cell(0,5), 'VariableNames', {'pointID','frameNumber','xCoord','yCoord','parentID'});
+                p.allPoints = cell2table(cell(0,6), 'VariableNames', {'pointID','frameNumber','xCoord','yCoord','parentID','annotation'});
             else
                 fprintf('Loading Table\n');
-                p.allPoints = readtable(varargin{1});
+                p.allPoints = readtable(varargin{1},'TextType','string');
+                if ~ismember("annotation",p.allPoints.Properties.VariableNames)
+                   col = repmat("none",height(p.allPoints),1);
+                   p.allPoints.annotation = col;
+                end
             end
+        end
+        
+        function p = changeAnnotation(p, pointIDs, newAnnotation)
+            idx = ismember(p.allPoints.pointID,pointIDs);
+            p.allPoints.annotation(idx) = newAnnotation;
         end
         
         function [p, newPoints] = addRawPoints(p, frame, centroids)
@@ -28,6 +37,7 @@ classdef pointTable < handle
             
             T = table( ((mxID+1):(mxID+sz(1)))', frame*ones(sz(1),1), centroids(:,1), centroids(:,2), nan(sz(1),1));
             T.Properties.VariableNames = {'pointID','frameNumber','xCoord','yCoord','parentID'};
+            T.annotation = repmat("none",sz(1),1);
             p.allPoints = [p.allPoints; T];
             newPoints = T; % This allows you to capture just the new points that you just added, but in the table format
         end

@@ -27,6 +27,14 @@ classdef timeLapseGUI < handle
         showPointIDsHandle
         currentFramePopupHandle
         
+        noneButtonHandle
+        badButtonHandle
+        deadButtonHandle
+        disappearButtonHandle
+        missingButtonHandle
+        leftFrameButtonHandle
+        enterFrameButtonHandle
+        
         axesHandle
         imageHandle
         linesHandle
@@ -47,8 +55,18 @@ classdef timeLapseGUI < handle
             p.saveButtonHandle = uicontrol('Style','pushbutton','String','save','Position',[5,370,80,25]);
             p.showPointIDsHandle = uicontrol('Style','checkbox','String','showID','Position',[5,400,80,25]);
             
+            p.noneButtonHandle =        uicontrol('Style','pushbutton','String','none','Position',[5,430,80,25]);
+            p.badButtonHandle =         uicontrol('Style','pushbutton','String','bad','Position',[5,460,80,25]);
+            p.deadButtonHandle =        uicontrol('Style','pushbutton','String','dead','Position',[5,490,80,25]);
+            p.disappearButtonHandle =   uicontrol('Style','pushbutton','String','disappear','Position',[5,520,80,25]);
+            p.missingButtonHandle =     uicontrol('Style','pushbutton','String','missing','Position',[5,550,80,25]);
+            p.leftFrameButtonHandle =   uicontrol('Style','pushbutton','String','leftFrame','Position',[5,580,80,25]);
+            p.enterFrameButtonHandle =  uicontrol('Style','pushbutton','String','enterFrame','Position',[5,610,80,25]);
+            
             p.currentFramePopupHandle = uicontrol(p.figHandle,'Style','popupmenu');
             p.currentFramePopupHandle.Position = [5 5 200 25];
+            
+            
             
             
             % Use following
@@ -81,6 +99,15 @@ classdef timeLapseGUI < handle
             p.currentFramePopupHandle.Callback ={@pc.updateFrame}; % Needs fixing
             p.saveButtonHandle.Callback ={@pc.saveButtonPushed}; % Needs fixing
             p.showPointIDsHandle.Callback ={@pc.showPointIDsPushed}; % Needs fixing
+            
+            p.noneButtonHandle.Callback ={@pc.setAnnotation}; % Needs fixing
+            p.badButtonHandle.Callback ={@pc.setAnnotation}; % Needs fixing
+            p.deadButtonHandle.Callback ={@pc.setAnnotation}; % Needs fixing
+            p.disappearButtonHandle.Callback ={@pc.setAnnotation}; % Needs fixing
+            p.missingButtonHandle.Callback ={@pc.setAnnotation}; % Needs fixing
+            p.leftFrameButtonHandle.Callback ={@pc.setAnnotation}; % Needs fixing
+            p.enterFrameButtonHandle.Callback ={@pc.setAnnotation}; % Needs fixing
+            
             pc.showPointIDsHandle = p.showPointIDsHandle;
             pc.saveFilename = inFilename;
             
@@ -117,8 +144,8 @@ classdef timeLapseGUI < handle
             p.currentFramePopupHandle.UserData = p.imageFiles;
             
             if isfile(p.pointController.saveFilename)
-                p.pointTableHandle = pointTable();
-                p.pointTableHandle.allPoints = readtable(p.pointController.saveFilename);
+                p.pointTableHandle = pointTable(p.pointController.saveFilename);
+                %p.pointTableHandle.allPoints = readtable(p.pointController.saveFilename,'TextType','string');
             else
                 
                 p.pointTableHandle = pointTable();
