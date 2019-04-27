@@ -100,7 +100,7 @@ classdef pointController < handle
             p.nextPoints = images.roi.Point;
             for i = 1:height(Tcurr)
                 p.currPoints(i) = drawpoint(p.axesHandle,'Position',[Tcurr.xCoord(i) Tcurr.yCoord(i)],...
-                    'Color','b','SelectedColor','c');
+                    'Color',[.4 .4 1],'SelectedColor','c');
                 p.currPoints(i).UserData = Tcurr.pointID(i);
 %                 p.currPoints(i).Label = num2str(Tcurr.pointID(i));
                 p.currPoints(i).Label = getPtLabel(p,Tcurr.pointID(i));
@@ -152,7 +152,7 @@ classdef pointController < handle
         function p = addCurrPointButtonPushed(p,src,eventdata)
             fprintf('hi\n');
             p.currPoints(end+1) = drawpoint(p.axesHandle,...
-                    'Color','b','SelectedColor','c');
+                    'Color',[.4 .4 1],'SelectedColor','c');
             xCoord = p.currPoints(end).Position(1);
             yCoord = p.currPoints(end).Position(2);
             
