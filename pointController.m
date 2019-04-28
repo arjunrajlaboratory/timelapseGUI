@@ -167,6 +167,8 @@ classdef pointController < handle
             p.currPoints(end).Label = getPtLabel(p,newPoint.pointID);
             
             addlistener(p.currPoints(end),'ROIMoved',@p.pointMoved);
+            
+            p.showPointIDsPushed(src,eventdata);
             % *** ADD LISTENERS FOR MOVED, DELETED
             
         end
@@ -190,6 +192,8 @@ classdef pointController < handle
 %             p.nextPoints(end).Label = num2str(newPoint.pointID);
             p.nextPoints(end).Label = getPtLabel(p,newPoint.pointID);
             addlistener(p.nextPoints(end),'ROIMoved',@p.pointMoved);
+            
+            p.showPointIDsPushed(src,eventdata);
 
             % *** ADD LISTENERS FOR MOVED, DELETED
             % *** ADD SOMETHING TO GUESS PARENT THEN DRAWLINES
@@ -227,6 +231,10 @@ classdef pointController < handle
                     label = num2str(theID)+" "+annotation;
                 else
                     label = num2str(theID);
+                end
+                parent = p.pointTableHandle.allPoints.parentID(idx);
+                if isnan(parent)
+                    label = label + " NO PARENT";
                 end
             else
                 label = '';
@@ -287,6 +295,7 @@ classdef pointController < handle
             % Be sure to deselect All.
             p.deselectAllButtonPushed(src,eventdata);
             
+            p.showPointIDsPushed(src,eventdata);
             p.drawLines();
             
             
@@ -313,6 +322,7 @@ classdef pointController < handle
             end
             p.currPoints = p.currPoints(isvalid(p.currPoints));
             p.nextPoints = p.nextPoints(isvalid(p.nextPoints));
+            p.showPointIDsPushed(src,eventdata);
             p.drawLines();
             
         end
