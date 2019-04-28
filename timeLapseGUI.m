@@ -31,6 +31,7 @@ classdef timeLapseGUI < handle
         badButtonHandle
         deadButtonHandle
         disappearButtonHandle
+        appearButtonHandle
         missingButtonHandle
         leftFrameButtonHandle
         enterFrameButtonHandle
@@ -59,9 +60,10 @@ classdef timeLapseGUI < handle
             p.badButtonHandle =         uicontrol('Style','pushbutton','String','bad','Position',[5,460,80,25]);
             p.deadButtonHandle =        uicontrol('Style','pushbutton','String','dead','Position',[5,490,80,25]);
             p.disappearButtonHandle =   uicontrol('Style','pushbutton','String','disappear','Position',[5,520,80,25]);
-            p.missingButtonHandle =     uicontrol('Style','pushbutton','String','missing','Position',[5,550,80,25]);
-            p.leftFrameButtonHandle =   uicontrol('Style','pushbutton','String','leftFrame','Position',[5,580,80,25]);
-            p.enterFrameButtonHandle =  uicontrol('Style','pushbutton','String','enterFrame','Position',[5,610,80,25]);
+            p.appearButtonHandle =      uicontrol('Style','pushbutton','String','appear','Position',[5,550,80,25]);            
+            p.missingButtonHandle =     uicontrol('Style','pushbutton','String','missing','Position',[5,580,80,25]);
+            p.leftFrameButtonHandle =   uicontrol('Style','pushbutton','String','leftFrame','Position',[5,610,80,25]);
+            p.enterFrameButtonHandle =  uicontrol('Style','pushbutton','String','enterFrame','Position',[5,640,80,25]);
             
             p.currentFramePopupHandle = uicontrol(p.figHandle,'Style','popupmenu');
             p.currentFramePopupHandle.Position = [5 5 200 25];
@@ -104,6 +106,7 @@ classdef timeLapseGUI < handle
             p.badButtonHandle.Callback ={@pc.setAnnotation}; % Needs fixing
             p.deadButtonHandle.Callback ={@pc.setAnnotation}; % Needs fixing
             p.disappearButtonHandle.Callback ={@pc.setAnnotation}; % Needs fixing
+            p.appearButtonHandle.Callback ={@pc.setAnnotation}; % Needs fixing
             p.missingButtonHandle.Callback ={@pc.setAnnotation}; % Needs fixing
             p.leftFrameButtonHandle.Callback ={@pc.setAnnotation}; % Needs fixing
             p.enterFrameButtonHandle.Callback ={@pc.setAnnotation}; % Needs fixing
