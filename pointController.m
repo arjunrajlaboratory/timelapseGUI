@@ -108,7 +108,7 @@ classdef pointController < handle
             end
             for i = 1:height(Tnext)
                 p.nextPoints(i) = drawpoint(p.axesHandle,'Position',[Tnext.xCoord(i) Tnext.yCoord(i)],...
-                    'Color','y','SelectedColor','r');
+                    'Color','y','SelectedColor','m');
                 p.nextPoints(i).UserData = Tnext.pointID(i);
 %                 p.nextPoints(i).Label = num2str(Tnext.pointID(i));
                 p.nextPoints(i).Label = getPtLabel(p,Tnext.pointID(i));
