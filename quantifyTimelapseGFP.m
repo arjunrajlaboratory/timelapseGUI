@@ -1,18 +1,19 @@
 
+function pointTable = quantifyTimelapseGFP(pointTableFile,fileTableFile,outputFile,thumbnailFolder)
+
+
 %cellWidth = 50;
 
 cellWidth = 100;
 
-pointTable = readtable('out_c1to3_r4to6.csv');
+pointTable = readtable(pointTableFile);
 pointTable.gfp = nan(height(pointTable),1);
-fileTable = readtable('fileTable.csv');
+fileTable = readtable(fileTableFile);
 
 gfpFiles = fileTable(fileTable.wavelength == "gfp",:);
 cy5Files = fileTable(fileTable.wavelength == "cy5",:);
 
 gfpFiles = sortrows(gfpFiles,'frameNumber');
-
-
 
 for i = 1:height(gfpFiles)
     
@@ -65,7 +66,7 @@ for i = 1:height(gfpFiles)
         % NEED TO FIGURE OUT HOW TO SAVE DATA. PROBABLY ADD TO POINT TABLE.
         gfpVal = mean(gfpIm(idx));
         pointTable.gfp(pointTable.pointID == points.pointID(j)) = gfpVal;
-
+        
         % imshow(imoverlay(scale(nucIm),donut,'m'))
         % cat(3,scale(nucIm)+mask*0.25,scale(nucIm),scale(nucIm))
         outim = im2uint8(cat(3,scale(nucIm)+donut,scale(nucIm),scale(nucIm)));
@@ -74,19 +75,21 @@ for i = 1:height(gfpFiles)
         %idstring = "_"+num2str(i)+"_"+num2str(j);
         idstring = "_"+b;
         
-        imwrite([outim outim2],"tempIms/point"+num2str(points.pointID(j))+idstring+".jpg");
+        imwrite([outim outim2],thumbnailFolder+"/point"+num2str(points.pointID(j))+idstring+".jpg");
         
         
     end
     
 end
 
-writetable(pointTable,'outTable.csv');
+writetable(pointTable,outputFile);
 
-fileFolder = 'tempIms';
-dirOutput = dir(fullfile(fileFolder,'*.jpg'));
-fileNames = string({dirOutput.name});
-cd('tempIms');
-mont = montage(fileNames,'BorderSize',[1 1],'BackgroundColor','w');
-cd ..
+end
+
+% fileFolder = 'tempIms';
+% dirOutput = dir(fullfile(fileFolder,'*.jpg'));
+% fileNames = string({dirOutput.name});
+% cd('tempIms');
+% mont = montage(fileNames,'BorderSize',[1 1],'BackgroundColor','w');
+% cd ..
 %imwrite(mont,'imageMontage.jpg');
