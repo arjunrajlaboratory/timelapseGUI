@@ -39,6 +39,8 @@ for i = 1:height(gfpFiles)
     mnim = imimposemin(cy2,pointImage);
     ws = watershed(mnim);
     
+    
+    cy5Image = scale(cy5Image);
     for j = 1:height(points)
         fprintf('i = %d, j = %d\n',i,j);
         
