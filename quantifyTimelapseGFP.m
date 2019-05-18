@@ -56,8 +56,10 @@ for i = 1:height(gfpFiles)
         mask = imbinarize(nucIm,level);
         % These will select just the particular thing.
         mask2 = imbinarize(cy5Image,level);
+        mask2 = mask2.*double(ws);
         mask3 = bwselect(mask2,currPoint(1),currPoint(2),4);
         mask4 = imcrop(mask3,R);
+
         
         
         donut = imdilate(mask4,strel('disk',8)) .* ~imdilate(mask4,strel('disk',2));
