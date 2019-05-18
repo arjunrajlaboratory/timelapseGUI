@@ -53,6 +53,13 @@ for i = 1:height(gfpFiles)
         % The below may need watershedding depending on how often two
         % nuclei are in the field of view
         level = graythresh(nucIm);
+        if cy5Image(round(currPoint(2)),round(currPoint(1))) < level
+            fprintf('No segment, shrinking region, pointID = %d, i = %d, j = %d\n',points.pointID(j),i,j);
+            cellWidth2 = cellWidth/2;
+            R2 = [ (currPoint - cellWidth2) cellWidth2*2 cellWidth2*2];
+            nucIm2 = imcrop(cy5Image,R2);
+            level = graythresh(nucIm2);
+        end
         mask = imbinarize(nucIm,level);
         % These will select just the particular thing.
         mask2 = imbinarize(cy5Image,level);
