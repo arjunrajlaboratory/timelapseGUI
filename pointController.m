@@ -12,6 +12,9 @@ classdef pointController < handle
         
         saveFilename
         
+        GFPStatus = false;
+        TransStatus = false;
+        
         addCurrButtonHandle
         addNextButtonHandle
         deleteButtonHandle
@@ -353,24 +356,75 @@ classdef pointController < handle
             writetable(p.pointTableHandle.allPoints,p.saveFilename);
         end
         
-        function p = showImages(p)
-            % delete all current points (can just call delete(pts)
-            % makePoints
-            % drawLines
-            
+        function p = toggleGFP(p,src,eventData)
+            p.GFPStatus = ~p.GFPStatus;
+            p.showImagesNoPointUpdate();
+        end
+        
+        function p = toggleTrans(p,src,eventData)
+            p.TransStatus = ~p.TransStatus;
+            p.showImagesNoPointUpdate();
+        end
+        
+        function p = showImagesNoPointUpdate(p)
             currFrame = p.currentFramePopupHandle.Value;
             image1 = imread(p.currentFramePopupHandle.UserData{currFrame});
             image2 = imread(p.currentFramePopupHandle.UserData{currFrame+1});
             image1 = imadjust(image1,[],[],0.3);
             image2 = imadjust(image2,[],[],0.3);
+            
+            toggleImage = zeros([size(image1),3]);
+            if p.GFPStatus
+                gfpstring1 = p.currentFramePopupHandle.UserData{currFrame};
+                gfpstring1(1:3) = 'gfp';
+                gfpimage1 = imread(gfpstring1);
+                
+                gfpstring2 = p.currentFramePopupHandle.UserData{currFrame+1};
+                gfpstring2(1:3) = 'gfp';
+                gfpimage2 = imread(gfpstring2);
+                
+                gfpimage1 = im2double(gfpimage1);
+                gfpimage2 = im2double(gfpimage2);
+                
+                gfpimage1 = imadjust(gfpimage1,stretchlim(gfpimage1,[0.9 .99999]));
+                gfpimage2 = imadjust(gfpimage2,stretchlim(gfpimage2,[0.9 .99999]));
+                % If you want next frame, just undo the comment in
+                % following line
+                toggleImage = makeColoredImage(gfpimage1,[0 1 0]); % + makeColoredImage(gfpimage2,[1 0 0]);
+            end
+            if p.TransStatus
+            end
 
-            outRGB = makeColoredImage(scale(im2double(image1)),[0 0.6797 0.9336]) + makeColoredImage(scale(im2double(image2)),[0.9648 0.5781 0.1172]);
+            outRGB = makeColoredImage(scale(im2double(image1)),[0 0.6797 0.9336]) + makeColoredImage(scale(im2double(image2)),[0.9648 0.5781 0.1172]) + toggleImage;
+            
             if ~isempty(p.imageHandle)
                 p.imageHandle.CData = outRGB;
             else
                 p.imageHandle = imshow(outRGB,'Parent',p.axesHandle);
             end
             
+        end
+        
+        function p = showImages(p)
+            % delete all current points (can just call delete(pts)
+            % makePoints
+            % drawLines
+            
+%             currFrame = p.currentFramePopupHandle.Value;
+%             image1 = imread(p.currentFramePopupHandle.UserData{currFrame});
+%             image2 = imread(p.currentFramePopupHandle.UserData{currFrame+1});
+%             image1 = imadjust(image1,[],[],0.3);
+%             image2 = imadjust(image2,[],[],0.3);
+% 
+%             outRGB = makeColoredImage(scale(im2double(image1)),[0 0.6797 0.9336]) + makeColoredImage(scale(im2double(image2)),[0.9648 0.5781 0.1172]);
+%             if ~isempty(p.imageHandle)
+%                 p.imageHandle.CData = outRGB;
+%             else
+%                 p.imageHandle = imshow(outRGB,'Parent',p.axesHandle);
+%             end
+%           
+
+            p.showImagesNoPointUpdate();
             p.makePoints();
             %p.drawLines();
         end

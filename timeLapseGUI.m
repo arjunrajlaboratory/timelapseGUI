@@ -258,6 +258,10 @@ classdef timeLapseGUI < handle
                 case 't'
                     p.pointController.showPointIDsHandle.Value = ~p.pointController.showPointIDsHandle.Value;
                     p.pointController.showPointIDsPushed(p.pointController.showPointIDsHandle,eventdata);
+                case 'w'
+                    p.pointController.toggleGFP(src,eventdata);
+                case 'e'
+                    p.pointController.toggleTrans(src,eventdata);
             end
             
         end
