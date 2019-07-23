@@ -8,6 +8,11 @@ cellWidth = 100;
 
 pointTable = readtable(pointTableFile);
 pointTable.gfp = nan(height(pointTable),1);
+pointTable.gfpMedian = nan(height(pointTable),1);
+pointTable.backgroundGFPMean = nan(height(pointTable),1);
+pointTable.backgroundGFPMedian = nan(height(pointTable),1);
+pointTable.backgroundGFPMode = nan(height(pointTable),1);
+
 fileTable = readtable(fileTableFile);
 
 gfpFiles = fileTable(fileTable.wavelength == "gfp",:);
@@ -39,6 +44,9 @@ for i = 1:height(gfpFiles)
     mnim = imimposemin(cy2,pointImage);
     ws = watershed(mnim);
     
+    backgroundGFPMean = mean(gfpImage(:));
+    backgroundGFPMedian = median(gfpImage(:));
+    backgroundGFPMode = mode(gfpImage(:));
     
     cy5Image = scale(cy5Image);
     for j = 1:height(points)
@@ -76,7 +84,13 @@ for i = 1:height(gfpFiles)
         idx = donut(:); % Convert to array for logical indexing
         % NEED TO FIGURE OUT HOW TO SAVE DATA. PROBABLY ADD TO POINT TABLE.
         gfpVal = mean(gfpIm(idx));
+        gfpMedian = median(gfpIm(idx));
         pointTable.gfp(pointTable.pointID == points.pointID(j)) = gfpVal;
+        pointTable.gfpMedian(pointTable.pointID == points.pointID(j)) = gfpMedian;
+        
+        pointTable.backgroundGFPMean(pointTable.pointID == points.pointID(j)) = backgroundGFPMean;
+        pointTable.backgroundGFPMedian(pointTable.pointID == points.pointID(j)) = backgroundGFPMedian;
+        pointTable.backgroundGFPMode(pointTable.pointID == points.pointID(j)) = backgroundGFPMode;
         
         % imshow(imoverlay(scale(nucIm),donut,'m'))
         % cat(3,scale(nucIm)+mask*0.25,scale(nucIm),scale(nucIm))
