@@ -393,6 +393,12 @@ classdef pointController < handle
                 toggleImage = makeColoredImage(gfpimage2,[0 1 0]); % + makeColoredImage(gfpimage2,[1 0 0]);
             end
             if p.TransStatus
+                
+                transstring2 = p.currentFramePopupHandle.UserData{currFrame+1};
+                transstring2 = ['trans' transstring2(4:end)];
+                transimage2 = scale(imread(transstring2));
+                toggleImage = cat(3,transimage2,transimage2,transimage2);
+
             end
 
             outRGB = makeColoredImage(scale(im2double(image1)),[0 0.6797 0.9336]) + makeColoredImage(scale(im2double(image2)),[0.9648 0.5781 0.1172]) + toggleImage;
