@@ -390,7 +390,7 @@ classdef pointController < handle
                 gfpimage2 = imadjust(gfpimage2,stretchlim(gfpimage2,[0.9 .99999]));
                 % If you want next frame, just undo the comment in
                 % following line
-                toggleImage = makeColoredImage(gfpimage1,[0 1 0]); % + makeColoredImage(gfpimage2,[1 0 0]);
+                toggleImage = makeColoredImage(gfpimage2,[0 1 0]); % + makeColoredImage(gfpimage2,[1 0 0]);
             end
             if p.TransStatus
             end
