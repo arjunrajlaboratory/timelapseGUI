@@ -50,25 +50,25 @@ classdef resistLapseGUI < handle
             p.figHandle = figure('Visible','off','Position',[360,500,450,285]);
             p.figHandle.KeyPressFcn = @p.GUIWindowKeyPressFcn;
             
-            p.addCurrButtonHandle = uicontrol('Style','pushbutton','String','add curr pt','Position',[5,220,80,25]);
-            p.addNextButtonHandle = uicontrol('Style','pushbutton','String','add next pt','Position',[5,250,80,25]);
-            p.deleteButtonHandle = uicontrol('Style','pushbutton','String','delete pts','Position',[5,280,80,25]);
-            p.deselectAllButtonHandle = uicontrol('Style','pushbutton','String','deselect','Position',[5,310,80,25]);
-            p.connectParentButtonHandle = uicontrol('Style','pushbutton','String','connect parent','Position',[5,340,80,25]);
-            p.saveButtonHandle = uicontrol('Style','pushbutton','String','save','Position',[5,370,80,25]);
-            p.showPointIDsHandle = uicontrol('Style','checkbox','String','showID','Position',[5,400,80,25]);
+            p.addCurrButtonHandle = uicontrol('Style','pushbutton','String','add curr pt','Position',[5,220-100,80,25]);
+            p.addNextButtonHandle = uicontrol('Style','pushbutton','String','add next pt','Position',[5,250-100,80,25]);
+            p.deleteButtonHandle = uicontrol('Style','pushbutton','String','delete pts','Position',[5,280-100,80,25]);
+            p.deselectAllButtonHandle = uicontrol('Style','pushbutton','String','deselect','Position',[5,310-100,80,25]);
+            p.connectParentButtonHandle = uicontrol('Style','pushbutton','String','connect parent','Position',[5,340-100,80,25]);
+            p.saveButtonHandle = uicontrol('Style','pushbutton','String','save','Position',[5,370-100,80,25]);
+            p.showPointIDsHandle = uicontrol('Style','checkbox','String','showID','Position',[5,400-100,80,25]);
             
-            p.noneButtonHandle =        uicontrol('Style','pushbutton','String','none','Position',[5,430,80,25]);
-            p.badButtonHandle =         uicontrol('Style','pushbutton','String','bad','Position',[5,460,80,25]);
-            p.deadButtonHandle =        uicontrol('Style','pushbutton','String','dead','Position',[5,490,80,25]);
-            p.disappearButtonHandle =   uicontrol('Style','pushbutton','String','disappear','Position',[5,520,80,25]);
-            p.appearButtonHandle =      uicontrol('Style','pushbutton','String','appear','Position',[5,550,80,25]);            
-            p.missingButtonHandle =     uicontrol('Style','pushbutton','String','missing','Position',[5,580,80,25]);
-            p.leftFrameButtonHandle =   uicontrol('Style','pushbutton','String','leftFrame','Position',[5,610,80,25]);
-            p.enterFrameButtonHandle =  uicontrol('Style','pushbutton','String','enterFrame','Position',[5,640,80,25]);
-            p.badGFPButtonHandle =      uicontrol('Style','pushbutton','String','badGFP','Position',[5,670,80,25]);
+            p.noneButtonHandle =        uicontrol('Style','pushbutton','String','none','Position',[5,430-100,80,25]);
+            p.badButtonHandle =         uicontrol('Style','pushbutton','String','bad','Position',[5,460-100,80,25]);
+            p.deadButtonHandle =        uicontrol('Style','pushbutton','String','dead','Position',[5,490-100,80,25]);
+            p.disappearButtonHandle =   uicontrol('Style','pushbutton','String','disappear','Position',[5,520-100,80,25]);
+            p.appearButtonHandle =      uicontrol('Style','pushbutton','String','appear','Position',[5,550-100,80,25]);            
+            p.missingButtonHandle =     uicontrol('Style','pushbutton','String','missing','Position',[5,580-100,80,25]);
+            p.leftFrameButtonHandle =   uicontrol('Style','pushbutton','String','leftFrame','Position',[5,610-100,80,25]);
+            p.enterFrameButtonHandle =  uicontrol('Style','pushbutton','String','enterFrame','Position',[5,640-100,80,25]);
+            p.badGFPButtonHandle =      uicontrol('Style','pushbutton','String','badGFP','Position',[5,670-100,80,25]);
             
-            p.addNextConnectButtonHandle = uicontrol('Style','pushbutton','String','add next cnct','Position',[5,700,80,25]);
+            p.addNextConnectButtonHandle = uicontrol('Style','pushbutton','String','add next cnct','Position',[5,700-100,80,25]);
             
             p.currentFramePopupHandle = uicontrol(p.figHandle,'Style','popupmenu');
             p.currentFramePopupHandle.Position = [5 5 200 25];
