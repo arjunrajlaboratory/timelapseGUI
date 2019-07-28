@@ -26,6 +26,7 @@ classdef resistLapseGUI < handle
         saveButtonHandle
         showPointIDsHandle
         currentFramePopupHandle
+        addNextConnectButtonHandle
         
         noneButtonHandle
         badButtonHandle
@@ -35,6 +36,7 @@ classdef resistLapseGUI < handle
         missingButtonHandle
         leftFrameButtonHandle
         enterFrameButtonHandle
+        badGFPButtonHandle
         
         axesHandle
         imageHandle
@@ -64,6 +66,9 @@ classdef resistLapseGUI < handle
             p.missingButtonHandle =     uicontrol('Style','pushbutton','String','missing','Position',[5,580,80,25]);
             p.leftFrameButtonHandle =   uicontrol('Style','pushbutton','String','leftFrame','Position',[5,610,80,25]);
             p.enterFrameButtonHandle =  uicontrol('Style','pushbutton','String','enterFrame','Position',[5,640,80,25]);
+            p.badGFPButtonHandle =      uicontrol('Style','pushbutton','String','badGFP','Position',[5,670,80,25]);
+            
+            p.addNextConnectButtonHandle = uicontrol('Style','pushbutton','String','add next cnct','Position',[5,700,80,25]);
             
             p.currentFramePopupHandle = uicontrol(p.figHandle,'Style','popupmenu');
             p.currentFramePopupHandle.Position = [5 5 200 25];
@@ -101,6 +106,8 @@ classdef resistLapseGUI < handle
             p.currentFramePopupHandle.Callback ={@pc.updateFrame}; % Needs fixing
             p.saveButtonHandle.Callback ={@pc.saveButtonPushed}; % Needs fixing
             p.showPointIDsHandle.Callback ={@pc.showPointIDsPushed}; % Needs fixing
+            p.addNextConnectButtonHandle.Callback={@pc.addNextConnectPointButtonPushed}; % Needs fixing
+
             
             p.noneButtonHandle.Callback ={@pc.setAnnotation}; % Needs fixing
             p.badButtonHandle.Callback ={@pc.setAnnotation}; % Needs fixing
@@ -110,6 +117,7 @@ classdef resistLapseGUI < handle
             p.missingButtonHandle.Callback ={@pc.setAnnotation}; % Needs fixing
             p.leftFrameButtonHandle.Callback ={@pc.setAnnotation}; % Needs fixing
             p.enterFrameButtonHandle.Callback ={@pc.setAnnotation}; % Needs fixing
+            p.badGFPButtonHandle.Callback ={@pc.setAnnotation}; % Needs fixing
             
             pc.showPointIDsHandle = p.showPointIDsHandle;
             pc.saveFilename = inFilename;
@@ -193,6 +201,8 @@ classdef resistLapseGUI < handle
             switch(keyPressed)
                 case 'a'
                     p.pointController.addNextPointButtonPushed(src, eventdata);
+                case 'r'
+                    p.pointController.addNextConnectPointButtonPushed(src, eventdata);
                 case 's'
                     p.pointController.addCurrPointButtonPushed(src, eventdata);
                 case 'd'

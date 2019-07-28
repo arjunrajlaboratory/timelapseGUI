@@ -49,6 +49,20 @@ classdef pointTable < handle
             p.allPoints.parentID(idx) = nan;
         end
         
+        
+        function p = guessParent(p,newPoint)
+            fprintf('hi\n');
+            prevFrame = newPoint.frameNumber-1;
+            prevList = p.allPoints(p.allPoints.frameNumber == prevFrame,:);
+            xy1 = [prevList.xCoord prevList.yCoord];
+            xy2 = [newPoint.xCoord newPoint.yCoord];
+            D = pdist2(xy1,xy2);
+            [~,idx] = min(D);
+            parentID = prevList.pointID(idx);
+            p.allPoints(p.allPoints.pointID == newPoint.pointID,:).parentID = parentID;
+        end
+        
+        
         function p = guessParents(p)
             
             endFrame = max(unique(p.allPoints.frameNumber));

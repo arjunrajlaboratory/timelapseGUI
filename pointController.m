@@ -203,6 +203,35 @@ classdef pointController < handle
             
         end
         
+        
+        function p = addNextConnectPointButtonPushed(p,src,eventdata)
+            fprintf('CONNECT add\n');
+            p.nextPoints(end+1) = drawpoint(p.axesHandle,...
+                    'Color','y','SelectedColor','m');
+            xCoord = p.nextPoints(end).Position(1);
+            yCoord = p.nextPoints(end).Position(2);
+            
+            popupHandle = p.currentFramePopupHandle;
+            nextFrame = popupHandle.Value + 1; %str2num(popupHandle.String{popupHandle.Value})+1;
+            
+            pointTable = p.pointTableHandle;
+            [pointTable, newPoint] = pointTable.addRawPoints(nextFrame, [xCoord yCoord]);
+            pointTable.guessParent(newPoint);
+            
+            p.nextPoints(end).UserData = newPoint.pointID;
+%             p.nextPoints(end).Label = num2str(newPoint.pointID);
+            p.nextPoints(end).Label = getPtLabel(p,newPoint.pointID);
+            addlistener(p.nextPoints(end),'ROIMoved',@p.pointMoved);
+            
+            p.showPointIDsPushed(src,eventdata);
+            
+            p.drawLines();
+
+            % *** ADD LISTENERS FOR MOVED, DELETED
+            % *** ADD SOMETHING TO GUESS PARENT THEN DRAWLINES
+            
+        end        
+        
         function p = saveButtonPushed(p,src,eventdata)
             fprintf('SAVE\n');
             writetable(p.pointTableHandle.allPoints,p.saveFilename);
