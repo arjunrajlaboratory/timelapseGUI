@@ -136,19 +136,21 @@ classdef pointController < handle
             currFrame = popupHandle.Value; %str2num(popupHandle.String{popupHandle.Value});
             Tcurr = p.pointTableHandle.getAllPointsInFrame(currFrame);
             Tnext = p.pointTableHandle.getAllPointsInFrame(currFrame+1);
-            nextPID = Tnext.parentID;
-            Tnext = Tnext(~isnan(nextPID),:); % get rid of NaNs
-            nextPID = Tnext.parentID;
-            currPID = Tcurr.pointID;
-            [tf,idx] = ismember(nextPID, currPID);
-            %idx = idx(idx ~= 0);
-            x1 = Tcurr.xCoord(idx);
-            x2 = Tnext.xCoord;
-            y1 = Tcurr.yCoord(idx);
-            y2 = Tnext.yCoord;
-            
-            p.linesHandle = line([x1';x2'],[y1';y2'],'color','r','LineWidth',2,'Parent',p.axesHandle);
-            
+            if ~isempty(Tcurr) & ~isempty(Tnext)
+                nextPID = Tnext.parentID;
+                Tnext = Tnext(~isnan(nextPID),:); % get rid of NaNs
+                nextPID = Tnext.parentID;
+                currPID = Tcurr.pointID;
+                [tf,idx] = ismember(nextPID, currPID);
+                idx2 = idx ~= 0;
+                idx = idx(idx ~= 0);
+                x1 = Tcurr.xCoord(idx);
+                x2 = Tnext.xCoord(idx2);
+                y1 = Tcurr.yCoord(idx);
+                y2 = Tnext.yCoord(idx2);
+                
+                p.linesHandle = line([x1';x2'],[y1';y2'],'color','r','LineWidth',2,'Parent',p.axesHandle);
+            end
             
         end
         
@@ -276,10 +278,14 @@ classdef pointController < handle
         function p = showPointIDsPushed(p,src,eventdata)
             
             for i = 1:length(p.currPoints)
-                p.currPoints(i).Label = getPtLabel(p,p.currPoints(i).UserData);
+                if ~isempty(p.currPoints(i).UserData)
+                    p.currPoints(i).Label = getPtLabel(p,p.currPoints(i).UserData);
+                end
             end
             for i = 1:length(p.nextPoints)
-                p.nextPoints(i).Label = getPtLabel(p,p.nextPoints(i).UserData);
+                if ~isempty(p.nextPoints(i).UserData)
+                    p.nextPoints(i).Label = getPtLabel(p,p.nextPoints(i).UserData);
+                end
             end
 %             if src.Value
 %                 for i = 1:length(p.currPoints)
