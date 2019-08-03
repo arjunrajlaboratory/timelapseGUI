@@ -412,23 +412,23 @@ classdef pointController < handle
             if p.GFPStatus
                 gfpstring1 = p.currentFramePopupHandle.UserData{currFrame};
                 gfpstring1(1:3) = 'gfp';
-                if isfile(gfpstring1)
-                    gfpimage1 = imread(gfpstring1);
+                %                 if isfile(gfpstring1)
+                %                     gfpimage1 = imread(gfpstring1);
+                %
+                gfpstring2 = p.currentFramePopupHandle.UserData{currFrame+1};
+                gfpstring2(1:3) = 'gfp';
+                if isfile(gfpstring2)
+                    gfpimage2 = imread(gfpstring2);
                     
-                    gfpstring2 = p.currentFramePopupHandle.UserData{currFrame+1};
-                    gfpstring2(1:3) = 'gfp';
-                    if isfile(gfpstring2)
-                        gfpimage2 = imread(gfpstring2);
-                        
-                        gfpimage1 = im2double(gfpimage1);
-                        gfpimage2 = im2double(gfpimage2);
-                        
-                        gfpimage1 = imadjust(gfpimage1,stretchlim(gfpimage1,[0.9 .99999]));
-                        gfpimage2 = imadjust(gfpimage2,stretchlim(gfpimage2,[0.9 .99999]));
-                        % If you want next frame, just undo the comment in
-                        % following line
-                        toggleImage = makeColoredImage(gfpimage2,[0 1 0]); % + makeColoredImage(gfpimage2,[1 0 0]);
-                    end
+                    %gfpimage1 = im2double(gfpimage1);
+                    gfpimage2 = im2double(gfpimage2);
+                    
+                    %gfpimage1 = imadjust(gfpimage1,stretchlim(gfpimage1,[0.9 .99999]));
+                    gfpimage2 = imadjust(gfpimage2,stretchlim(gfpimage2,[0.9 .99999]));
+                    % If you want next frame, just undo the comment in
+                    % following line
+                    toggleImage = makeColoredImage(gfpimage2,[0 1 0]); % + makeColoredImage(gfpimage2,[1 0 0]);
+                    
                 else
                     fprintf('No GFP\n');
                 end
