@@ -412,11 +412,12 @@ classdef pointController < handle
             if p.GFPStatus
                 gfpstring1 = p.currentFramePopupHandle.UserData{currFrame};
                 gfpstring1(1:3) = 'gfp';
-                if isfile(gfpstring1)
-                    gfpimage1 = imread(gfpstring1);
-                    
-                    gfpstring2 = p.currentFramePopupHandle.UserData{currFrame+1};
-                    gfpstring2(1:3) = 'gfp';
+                
+                gfpimage1 = imread(gfpstring1);
+                
+                gfpstring2 = p.currentFramePopupHandle.UserData{currFrame+1};
+                gfpstring2(1:3) = 'gfp';
+                if isfile(gfpstring2)
                     gfpimage2 = imread(gfpstring2);
                     
                     gfpimage1 = im2double(gfpimage1);
